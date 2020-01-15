@@ -8,7 +8,7 @@ import {
 const Logo = ({style}) => {
     return <Image 
                 source={require("../assets/images/logo.png")}
-                style={[{width: 150, height: 40}, style]}
+                style={[{width: 107, height: 38}, style]}
                 resizeMode={"contain"}
             />
 }

@@ -3,7 +3,7 @@ import {
     View,
   } from 'react-native';
 import { Ionicons ,  FontAwesome} from '@expo/vector-icons';
-import Colors from '../constants/Colors';
+import Colors from '../../../constants/Colors';
 
 export default function IconChecked({style ,checked}) {
   return (

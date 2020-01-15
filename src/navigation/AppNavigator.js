@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  Image,
+  View,
+  StyleSheet,
+} from 'react-native';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
@@ -10,8 +15,8 @@ import * as ActionsSetting from '../actions/Setting';
 
 import MainNavigator from './MainNavigator';
 import AuthNavigator from './AuthNavigator';
+import Logo from '../components/Logo';
 
-import Loading from '../components/Loading'
 
 
 class AuthLoadingScreen extends React.Component {
@@ -42,7 +47,9 @@ class AuthLoadingScreen extends React.Component {
   render() {
 
     return (
-      <Loading/>
+      <View style={[styles.container]}>
+          <Logo/>
+      </View>
     );
   }
 }
@@ -65,3 +72,14 @@ export default createAppContainer(
     Main: MainNavigator,
   })
 );
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: "white",
+      justifyContent: "center",
+      alignContent: "center",
+      alignItems: 'center'
+  },  
+  
+});

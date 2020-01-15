@@ -21,6 +21,6 @@ export default Link;
 
 const styles = StyleSheet.create({
     text: {
-        color: Colors.green
+        color: Colors.black
     }
  });

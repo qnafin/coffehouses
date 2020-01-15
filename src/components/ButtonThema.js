@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Colors from "../constants/Colors"
 import LinearGradient from 'react-native-linear-gradient';
+import ThemaStyle from '../constants/ThemaStyle';
 
 const ButtonThema = ({disabled, style, onPress, text, color, loading}) => {
   return (
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
   button_text: {
     color: "white",
-    fontSize: 16,
+    fontSize: ThemaStyle.fontSize17,
     textAlign: "center",
     fontWeight: "bold",
   },

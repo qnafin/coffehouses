@@ -21,7 +21,8 @@ import styles from '../style'
 
 
 import Colors from '../../../constants/Colors';
-import HeaderBack from '../../../components/HeaderBack'
+import IconClose from '../../../components/icon/IconClose'
+import Logo from '../../../components/Logo';
 
 import Layout from '../../../constants/Layout'
 import config from '../../../../app.json'
@@ -31,7 +32,7 @@ class AuthPhoneScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      phone: "+7 ",
+      phone: "",
       isChecking: false,
     };
     this.phone_format = ''
@@ -64,60 +65,77 @@ class AuthPhoneScreen extends React.Component {
   _onChangeText(text) {
     this.setState({phone: text})
   }
-
+  _onClearPhone() {
+    this.setState({phone: ""})
+  }
   render () {
     const {phone, isChecking} = this.state
     const {auth, navigation} = this.props
-    const isDisabled = phone === ""
+    const isDisabled = phone.length < 16
 
     return (
-      <KeyboardAvoidingView style={[styles.container]} behavior={Platform.OS === "ios" ? "padding" : false} enabled>
-       
-        <View style={styles.contentContainer}>
-            <HeaderBack />
-            <Text style={styles.title}> {i18n.t("login_or_register")}</Text>
-            <View style={ styles.contentBlock }>
-              <TextInputMask
-                  style={[ styles.inputText]}
-                  type={'cel-phone'}
-                  options={{
-                    maskType: 'BRL',
-                    withDDD: true,
-                    dddMask: '+9 (999) 999 99 99'
-                  }}
-                  maxLength={18}
-                  selectionColor={Colors.salate}
-                  autoFocus={true}
-                  underlineColorAndroid="transparent"
-                  keyboardType="number-pad"
-                  value={phone}
-                  onChangeText={text => this._onChangeText(text)}
-              />
-                <Text style={styles.description}>{i18n.t("enter_phone_number")} </Text>
-                <Text style={styles.description}>
-                  {auth.verify.errors &&
-                      auth.verify.errors.map((err, index) => <Text style={styles.error_text} key={index}>{err.message}</Text>)}
-                </Text>
-            </View>
-            <View style={styles.footer}>
-                <Text style={{width: Layout.window.width - 150, fontSize: 10}}>
-                  {i18n.t("user_agreement_text")}
-                  {" "}
-                  <Link url={config.link_user_agreement} text={i18n.t("user_agreement")}/>
-                  {" "}{i18n.t("and")}{"\n"}
-                  <Link url={config.link_privacy_policy} text={i18n.t("privacy_policy")}/>
-                </Text>
-                <View style={{width: 100}}>
-                  <ButtonThema
-                    loading={isChecking}
-                    disabled={isDisabled}
-                    text={i18n.t("next")}
-                    onPress={()=>this._onNextButton()}
-                  />
+      <View style={[styles.container, {paddingHorizontal: 0}]}>
+          <KeyboardAvoidingView style={[styles.container]} behavior={Platform.OS === "ios" ? "padding" : false} enabled>
+          
+            <View style={styles.contentContainer}>
+                <View />
+                <View style={styles.header}>
+                  <Logo/>
+                </View>
+                <View>
+                    <Text style={styles.title}> {i18n.t("your_phone")}</Text>
+                    <Text style={styles.description}>{i18n.t("enter_phone_number_description")} </Text>
+                    <View style={ styles.contentBlock }>
+                      <View style={styles.inputBlock}>
+                        <TextInputMask
+                            style={[ styles.inputText]}
+                            type={'cel-phone'}
+                            options={{
+                              maskType: 'BRL',
+                              withDDD: true,
+                              dddMask: '+9 999 999-99-99'
+                            }}
+                            maxLength={16}
+                            selectionColor={Colors.salate}
+                            placeholder={i18n.t("enter_phone_number")}
+                            autoFocus={true}
+                            underlineColorAndroid="transparent"
+                            keyboardType="number-pad"
+                            value={phone}
+                            onChangeText={text => this._onChangeText(text)}
+                        />
+                        {phone.length > 1 &&
+                          <IconClose 
+                            onPress={()=>this._onClearPhone()}
+                            style={styles.close}
+                          />
+                        }
+                        
+                      </View>
+                      
+                        <Text style={styles.description}>
+                          {auth.verify.errors &&
+                              auth.verify.errors.map((err, index) => <Text style={styles.error_text} key={index}>{err.message}</Text>)}
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.footer}>
+                    <ButtonThema
+                      loading={isChecking}
+                      disabled={isDisabled}
+                      text={i18n.t("sing_in")}
+                      onPress={()=>this._onNextButton()}
+                    />
+                    <Text style={[styles.agreement_text]}>
+                      {i18n.t("user_agreement_text")}
+                      {" "}
+                      <Link url={config.link_user_agreement} text={i18n.t("user_agreement")}/>
+                    </Text> 
                 </View>
             </View>
-        </View>
-    </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+         
+    </View>
     )
   }
 }

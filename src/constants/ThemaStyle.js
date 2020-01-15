@@ -2,6 +2,8 @@ import {
   Platform
 } from 'react-native';
 import L from '../constants/Layout'
+
+
 export default {
   shadow: Platform.OS == "ios" ?  {
     shadowOffset:{  width: 1,  height: 1,  },
@@ -20,4 +22,6 @@ export default {
   fontSize16: L.isSmallDevice ? 14 : 16,
   fontSize17: L.isSmallDevice ? 15 : 17,
   fontSize18: L.isSmallDevice ? 16 : 18,
+  fontSize22: L.isSmallDevice ? 20 : 22,
+  fontSize34: L.isSmallDevice ? 28 : 34,
 };

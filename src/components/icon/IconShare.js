@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../constants/Colors'
-import config from '../../app.json'
+import Colors from '../../constants/Colors'
+import config from '../../../app.json'
 
-import i18n from '../i18n';
+import i18n from '../../i18n';
 
 export default function IconShare({style, title, message, color = Colors.black}) {
   onShare = async () => {

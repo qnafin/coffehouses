@@ -1,13 +1,14 @@
 import {
   StyleSheet,
 } from 'react-native';
+import ThemeStyle from "../../constants/ThemaStyle"
+import Colors from '../../constants/Colors';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 0,
-    paddingLeft: "4%",
-    paddingRight: "4%",
+    paddingHorizontal: "4%",
   },
   contentContainer: {
     alignContent: "center",
@@ -17,21 +18,45 @@ export default StyleSheet.create({
     paddingBottom: 20,
   },
   title: {
-    fontSize: 20,
+    fontSize: ThemeStyle.fontSize34,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: Colors.black
+  },
+  header: {
+    paddingTop: "25%",
+    justifyContent: "center", 
+    alignItems: "center", 
+    flexDirection: "column"
   },
   description: {
-    fontSize: 16,
-    color: "#4D4D4D",
+    fontSize: ThemeStyle.fontSize17,
+    color: Colors.black,
+    textAlign: "center",
     marginTop: 10,
+    lineHeight: ThemeStyle.fontSize22,
+  },
+  inputBlock: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "center",
+    alignItems: "center",
+    borderColor: '#ccc',
+    borderBottomWidth: 0.5,
+    paddingBottom: 10,
+    paddingHorizontal: 10,
+    marginTop: 20,
   },
   inputText: {
-    fontSize: 26,
-    borderColor: 'gray',
-    borderWidth: 0,
-    borderRadius: 16,
-    width: "100%",
-    marginTop: 20,
-    color: "#000000",
+    fontSize: ThemeStyle.fontSize17,
+    textAlign: "center",
+    width: "100%",    
+    color: Colors.black
+  },
+  close: {
+    position: "absolute", 
+    right: 10, 
+    bottom: 5
   },
   button: {
     backgroundColor: "#6F4CFF",
@@ -52,16 +77,22 @@ export default StyleSheet.create({
     fontSize: 12
   },
   contentBlock: {
-    paddingRight: 20,
-    minHeight: 160,
+    paddingTop: 10,
   },
   number: {
     textAlign: "left",
     fontSize: 26,
   },
   footer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  agreement_text: {
+    fontSize: ThemeStyle.fontSize11,
+    color: Colors.grey,
+    textAlign: "center",
+    paddingTop: 20,
+    paddingHorizontal: "4%"
   }
 })

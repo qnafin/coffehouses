@@ -38,7 +38,6 @@ import ModalRentEnd from '../components/ModalRentEnd'
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
 import ActiveRent from "../components/ActiveRent"
-import IconBatteryLevel from "../components/IconBatteryLevel";
 
 const stylesMap = require("../stylesMap.json")
 
@@ -315,7 +314,7 @@ class MapScreen extends React.Component {
             provider={PROVIDER_GOOGLE}
             style={[styles.mapContainer]}
             //customMapStyle={stylesMap}
-            //showsUserLocation={true}
+            showsUserLocation={true}
             showsMyLocationButton={true}
             onRegionChange={this._onRegionChanged}
             initialRegion={this.currentRegion}
@@ -348,9 +347,6 @@ class MapScreen extends React.Component {
                   />
             )}
             
-            <CustomLocationMarker > 
-              <IconBatteryLevel/>
-            </CustomLocationMarker>
               
           </MapView>
               

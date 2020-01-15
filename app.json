@@ -2,8 +2,8 @@
   "name": "doubleb",
   "displayName": "Даблби",
   "host": "https://back.zaryadka.dev3.digital-spectr.ru/api/v1",
-  "link_user_agreement" : "https://doubleb.world/user_agreement",
-  "link_privacy_policy": "https://doubleb.world/privacy_policy",
+  "link_user_agreement" : "https://app.double-b.ru/user_agreement",
+  "link_privacy_policy": "https://app.double-b.ru/privacy_policy",
   "socnetwork" : [
     {
       "name": "vk",

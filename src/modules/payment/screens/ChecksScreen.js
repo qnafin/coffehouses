@@ -22,7 +22,7 @@ import TitlePageBack from '../../../components/TitlePageBack'
 import Accordion from '../../../components/Accordion'
 import { ScrollView } from 'react-native-gesture-handler';
 import Link from '../../../components/Link';
-import IconShare from "../../../components/IconShare"
+import IconShare from "../../../components/icon/IconShare"
 
 class ChecksScreen extends React.Component {
   constructor(props) {
