@@ -1,0 +1,27 @@
+{
+  "name": "doubleb",
+  "displayName": "Даблби",
+  "host": "https://back.zaryadka.dev3.digital-spectr.ru/api/v1",
+  "link_user_agreement" : "https://doubleb.world/user_agreement",
+  "link_privacy_policy": "https://doubleb.world/privacy_policy",
+  "socnetwork" : [
+    {
+      "name": "vk",
+      "link": "https://vk.com"
+    },
+    {
+      "name": "facebook",
+      "link": "https://facebook.com"
+    },
+    {
+      "name": "instagram",
+      "link": "https://instagram.com"
+    },
+    {
+      "name": "youtube",
+      "link": "https://www.youtube.com/"
+    }
+  ],
+  "gateway": "cloudpayments",
+  "gatewayMerchantId" : "pk_01e062dec677c02da688944715fc9"
+}
