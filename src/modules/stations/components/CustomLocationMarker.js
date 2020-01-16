@@ -101,6 +101,9 @@ class MyLocationMapMarker extends React.PureComponent {
     }
   }
   render() {
+
+    return null;
+
     let { heading, coordinate } = this.props;
     if (!coordinate) {
       const { myPosition } = this.state;
@@ -113,7 +116,7 @@ class MyLocationMapMarker extends React.PureComponent {
 
     const rotate =
       typeof heading === 'number' && heading >= 0 ? `${heading}deg` : null;
-
+    
     return (
       <Marker.Animated
         anchor={ANCHOR}

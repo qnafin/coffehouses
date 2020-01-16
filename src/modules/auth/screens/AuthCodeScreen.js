@@ -21,6 +21,7 @@ import Layout from '../../../constants/Layout'
 
 import helper from '../../../api/helper'
 import Colors from '../../../constants/Colors';
+import Loading from "../../../components/Loading"
 
 const TIMER = 59
 
@@ -40,7 +41,7 @@ class AuthCodeScreen extends React.Component {
   };
 
   componentDidMount() {
-    this._startTimer()
+    //this._startTimer()
   }
 
   componentWillUnmount() {
@@ -98,8 +99,9 @@ class AuthCodeScreen extends React.Component {
   }
 
   _onChangeText(text) {
+    let {timer} = this.state
     this.setState({code: text})
-    if (text.length == 4) {
+    if (text.length == 4 && timer == 0) {
       this._onSendCode(text)
     }
   }
@@ -137,49 +139,52 @@ class AuthCodeScreen extends React.Component {
                     underlineColorAndroid="transparent"
                     keyboardType="number-pad"
                     value={code}
+                    placeholder={i18n.t("enter_code")}
                     maxLength={4}
                     onChangeText={text => this._onChangeText(text)}
                   />
-                  <IconClose 
-                            onPress={()=>this._onClearPhone()}
-                            style={styles.close}
-                          />
                 </View>
               
               
               <Text style={styles.description}>
                 {auth.code.error && timer > 0
                 && <Text style={styles.error_text}>
-                  Введен неверный код, отправить новый можно через {timer} секунд
+                  {i18n.t("code_is_incorrect")}
                   {/*auth.code.error.message*/}
                 </Text>}
               </Text>
             </View>
           </View>
 
-          
           <View/>
+
           <View style={styles.footer}>
             <View style={{}}>
-              {(timer > 0) && <Text style={{fontSize: 16}}> 00:{helper.secondFormat(timer)} </Text>}
-
-            { (showBottonSendNewSmsCode) &&
-              <TouchableOpacity onPress={()=>this._authVerifyPhone()}>
-                    <Text style={{fontSize: 16}}> {i18n.t('send_new_code')} </Text>
-               </TouchableOpacity>
-            }
+              {(timer > 0) 
+                ? <Text style={styles.timer}>{i18n.t("timer_button_description")} 00:{helper.secondFormat(timer)} </Text>
+                : <TouchableOpacity onPress={()=>this._onSendCode(code)}>
+                    <Text style={styles.button_text}>{i18n.t("send_again")}</Text>
+                  </TouchableOpacity>
+              }
           </View>
-          <ButtonThema
-              loading={isChecking}
-              disabled={ isDisabled }
-              text={i18n.t("sing_in")}
-              onPress={()=>this._onSendCode(code)}
-            />
         </View>
 
         </View>
-
+        {isChecking 
+         && 
+          <Loading style={{
+            flex: 1, 
+            position: "absolute", 
+            height: "100%", 
+            width: "108%",
+            justifyContent: "center",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            opacity: 1
+          }}/> 
+        }
+        
       </KeyboardAvoidingView>
+      
     )
   }
 }

@@ -19,21 +19,24 @@ class MarkerList extends React.Component {
       image: {
         marker: require("../../../assets/images/map/marker.png"),
         selected: require("../../../assets/images/map/marker-selected.png"),
-        deactive: require("../../../assets/images/map/marker-deactive.png"),
       },
     }
   }
   
  
-  getImage(marker) {
+  renderImage(marker) {
     let {image} = this.state
     let {activeMarkerID} = this.props
-    if(marker.id == activeMarkerID && marker.active) {
-      return image.selected
-    } else if (marker.active == false) {
-      return image.deactive
+    if(marker.id == activeMarkerID ) {
+      return  <ImageBackground 
+                source={image.selected} 
+                style={{width: 40, height: 52}}
+              />
     } else {
-      return image.marker
+      return <ImageBackground 
+                source={image.marker} 
+                style={{width: 40, height: 52}}
+              />
     }
   }
   render() {
@@ -55,12 +58,7 @@ class MarkerList extends React.Component {
                     onPress({...coordinate, idStation: marker.id});
                   }}
                 >
-                    <ImageBackground 
-                      source={this.getImage(marker)} 
-                      style={{width: 47, height: 60}}
-                    >
-                      <Text style={[styles.markerText]} > {isRent ? marker.slots : marker.powerbanks} </Text>
-                    </ImageBackground>
+                    {this.renderImage(marker)}
                 </Marker>
             )}
             )}

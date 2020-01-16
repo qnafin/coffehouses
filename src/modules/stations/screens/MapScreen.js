@@ -37,9 +37,9 @@ import ModalRentStart from "../components/ModalRentStart"
 import ModalRentEnd from '../components/ModalRentEnd'
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
-import ActiveRent from "../components/ActiveRent"
 
 const stylesMap = require("../stylesMap.json")
+const IS_ANDROID = Platform.OS == "android";
 
 class MapScreen extends React.Component {
   constructor(props) {
@@ -309,9 +309,10 @@ class MapScreen extends React.Component {
     return (
         <SafeAreaView style={styles.container}>
           
+          <CustomLocationMarker />
           <MapView
             ref={el => (this.map = el)}
-            provider={PROVIDER_GOOGLE}
+            provider={ IS_ANDROID ? PROVIDER_GOOGLE : PROVIDER_GOOGLE}
             style={[styles.mapContainer]}
             //customMapStyle={stylesMap}
             showsUserLocation={true}
@@ -346,10 +347,9 @@ class MapScreen extends React.Component {
                     onPress={({latitude, longitude}) => {}} 
                   />
             )}
-            
               
           </MapView>
-              
+
               {showHeader && (
                 <HeaderMenu 
                   navigation={navigation} 
@@ -389,19 +389,6 @@ class MapScreen extends React.Component {
                   //isFollow={followsUserLocation}
                 />}
               
-              {!isRent 
-                && 
-              <View style={styles.submit}>
-                <ButtonThema 
-                  style={styles.submitButton}
-                  text={i18n.t('take_charger')}
-                  onPress={()=>{ 
-                    navigation.navigate("PaymentStation", {
-                      type: "Scaner",
-                    }) 
-                  }}
-                />
-              </View>}
               
               {Platform.OS == "android" 
                 &&
@@ -448,7 +435,6 @@ class MapScreen extends React.Component {
                   }}
                   item={detail}
               />
-              <ActiveRent style={styles.activeRent}/> 
               {setting_style.overlay && <Overlay />}
         </SafeAreaView>
         

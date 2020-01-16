@@ -10,7 +10,7 @@ import Colors from '../constants/Colors';
 export default function Loading({style}) {
   return (
     <View style={[styles.container, style]}>
-        <ActivityIndicator size="large" color={Colors.grey} />
+        <ActivityIndicator size="small" color={Colors.black} />
     </View>
   );
 }

@@ -68,13 +68,13 @@ export default StyleSheet.create({
     alignItems: "center"
   },
   button_text: {
-    color: "white",
-    fontSize: 16,
+    color: Colors.grey,
+    fontSize: ThemeStyle.fontSize17,
     fontWeight: "bold",
   },
   error_text: {
-    color: "#EA9996",
-    fontSize: 12
+    color: "#FB6569",
+    fontSize:  ThemeStyle.fontSize12,
   },
   contentBlock: {
     paddingTop: 10,
@@ -94,5 +94,10 @@ export default StyleSheet.create({
     textAlign: "center",
     paddingTop: 20,
     paddingHorizontal: "4%"
+  },
+  timer: {
+    fontSize: ThemeStyle.fontSize17,
+    fontWeight: "bold",
+    color: "#ccc"
   }
 })

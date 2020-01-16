@@ -94,6 +94,7 @@ export default Locale = {
         snap_card:"Привязать карту",
         link_card_for_payment: "Привязать карту для оплаты",
         enter_card_number: "Введите номер карты",
+        enter_code: "Введите код",
         mm_yy: "ММ/ГГ",
         cvv_cvc: "CVV/CVC–код",
         card_name: "Имя владельца",
@@ -121,7 +122,10 @@ export default Locale = {
         from: "от",
         on_sum: "на сумму",
         and: "и",
-        list_station: "Список станций"
+        list_station: "Список станций",
+        timer_button_description: "Отправить еще раз через",
+        send_again: "Отправить еще раз",
+        code_is_incorrect: "Код неверный"
     },
     en: {
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
@@ -186,6 +190,7 @@ export default Locale = {
         login_or_register: "Login or register",
         your_phone: "Your phone",
         enter_phone_number : "Enter phone number",
+        enter_code: "Enter code",
         enter_phone_number_description: "We need a number to register you in the application. We promise not to spam.",
         user_agreement_text: "By entering or registering you accept the conditions",
         user_agreement: "User Agreement",
@@ -246,6 +251,9 @@ export default Locale = {
         check: "Receipt",
         from: "from",
         on_sum: "On total",
-        list_station: "List Stations"
+        list_station: "List Stations",
+        timer_button_description: "Send again through",
+        send_again: "Send again",
+        code_is_incorrect: "The code is incorrect"
     }
 }

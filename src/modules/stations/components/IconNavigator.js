@@ -19,16 +19,16 @@ const IconNavigator = ({style, onPress, isFollow}) => {
       >
         <View style={[styles.rondoButton, styles.shadow, {backgroundColor: "white"}]}>
           <View style={{
-                backgroundColor: "#F8F8F8", 
-                borderRadius: 20, 
-                width: 26, 
-                height: 26,  
+                backgroundColor: "#fff", 
+                borderRadius: 48, 
+                width: 48, 
+                height: 48,  
                 justifyContent: "center",
                 alignItems: "center",
                 alignContent: "center"            
             }}>
             <Image 
-                style={isFollow ? {width: 20, height: 20, marginTop: 5} : {width: 14, height: 14}} 
+                style={isFollow ? {width: 25, height: 25, marginTop: 5} : {width: 20, height: 20}} 
                 resizeMode={"contain"} 
                 source={isFollow 
                           ? require("../../../assets/images/map/naviagator-follow.png")
