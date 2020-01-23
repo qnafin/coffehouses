@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: (Platform.OS == "ios") ? 40 : 20,
-        backgroundColor: "white",
         paddingBottom: 15,
         borderBottomLeftRadius: 45,
         borderBottomRightRadius: 45

@@ -18,5 +18,5 @@ export default {
   litleGrey: "#f8f8f8",
   greyBackground: "#f8f8f8",
   salate: "#62BEBD",
-  greenGradient: ["#333333"]
+  greenGradient: ["#333333", "#333333"]
 };

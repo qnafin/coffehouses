@@ -28,12 +28,17 @@ const IconNavigator = ({style, onPress, isFollow}) => {
                 alignContent: "center"            
             }}>
             <Image 
-                style={isFollow ? {width: 25, height: 25, marginTop: 5} : {width: 20, height: 20}} 
+                style={
+                  isFollow 
+                  ? { 
+                      width: 20, 
+                      height: 20, 
+                      top: 3, 
+                      transform: [{ rotate: "-45deg" }]
+                    } 
+                  : { width: 20, height: 20 }} 
                 resizeMode={"contain"} 
-                source={isFollow 
-                          ? require("../../../assets/images/map/naviagator-follow.png")
-                          : require("../../../assets/images/map/naviagator.png")
-                        }
+                source={require("../../../assets/images/map/naviagator.png")}
             />
           </View>
         </View>

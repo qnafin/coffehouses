@@ -59,7 +59,7 @@ class App extends React.Component {
     let {error, connect_info, actions} = this.props
     return (
       <View style={styles.container}>
-        <StatusBar  backgroundColor={Colors.green} barStyle={Platform.OS == "android" ? "light-content" : "dark-content"} />
+        <StatusBar  backgroundColor={Colors.black} barStyle={Platform.OS == "android" ? "light-content" : "dark-content"} />
         <AppNavigator locale={locale}/>
         
         

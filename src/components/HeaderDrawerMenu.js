@@ -24,10 +24,7 @@ const HeaderDrawerMenu = ({onPress, user}) => {
       <View style={styles.container}>
               
               <TouchableOpacity style={{}} onPress={onPress}>
-            
-                  <Text style={styles.city}>{'г. Москва'}</Text>
                   <Text style={styles.phone}>{phone} </Text>
-  
               </TouchableOpacity>
           </View>
     );

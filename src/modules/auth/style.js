@@ -24,7 +24,8 @@ export default StyleSheet.create({
     color: Colors.black
   },
   header: {
-    paddingTop: "25%",
+    paddingTop: 20,
+    paddingBottom: 20,
     justifyContent: "center", 
     alignItems: "center", 
     flexDirection: "column"

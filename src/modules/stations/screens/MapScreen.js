@@ -20,26 +20,24 @@ import * as ActionsUser from "../../../actions/User"
 import * as ActionsStation from '../../../actions/Station'
 import * as ActionsSetting from '../../../actions/Setting'
 
-import HeaderMenu from "../../../components/HeaderMenu"
 import Colors from '../../../constants/Colors'
 
 import ThemaStyle from '../../../constants/ThemaStyle'
-import IconFilter from "../components/IconFilter"
 import IconNavigator from "../components/IconNavigator"
 import MarkerList from "../components/MarkerList"
-import MarkerBulavka from "../components/MarkerBulavka"
 import CustomLocationMarker from "../components/CustomLocationMarker"
 import InputSearch from "../components/InputSearch"
 import ButtonThema from "../../../components/ButtonThema"
 import ModalDetailStation from "../components/ModalDetailStation"
 import ModalListStation from "../components/ModalListStation"
-import ModalRentStart from "../components/ModalRentStart"
-import ModalRentEnd from '../components/ModalRentEnd'
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
+import ZoomButtons from "../../stations/components/ZoomButtons"
 
 const stylesMap = require("../stylesMap.json")
 const IS_ANDROID = Platform.OS == "android";
+
+
 
 class MapScreen extends React.Component {
   constructor(props) {
@@ -61,7 +59,7 @@ class MapScreen extends React.Component {
     };
 
     this.currentRegion = this.state.initialRegion
-
+    this.zoom = 16;
   }
 
   componentDidMount() {
@@ -99,12 +97,8 @@ class MapScreen extends React.Component {
     let {followsUserLocation} = this.state
     let {
       active_marker, 
-      bulavka, 
       permission_geolocation, 
       actions, 
-      socket_rent_start, 
-      socket_rent_end,
-      rent_loader
     } = this.props
 
     if(prevState.followsUserLocation !== followsUserLocation) { 
@@ -129,52 +123,9 @@ class MapScreen extends React.Component {
        
       } 
     }
-    if(prevProps.socket_rent_start !== socket_rent_start) { 
-      //открыть окно Взять зарадку и перейти к маркеру
-      
-      if(socket_rent_start != null) {
-        let {station_id, coordinates} = socket_rent_start
-        console.log('socket_rent_start.station_id', station_id)
-        setTimeout(() => {
-          this._onPressMarker({
-            latitude: coordinates.lat, 
-            longitude: coordinates.lon, 
-            idStation: station_id
-          })
-          this.setState({modalRentStart: true, modalDetailVisible: false})
-        }, 0);
-       
-      } 
-    }
-    if(prevProps.rent_loader !== rent_loader) { 
-      //открыть окно Взять зарадку и перейти к маркеру
-      if(rent_loader != null) {
-          this.setState({modalRentStart: true, modalDetailVisible: false})
-      } 
-    }
-    if(prevProps.socket_rent_end !== socket_rent_end) { 
-      //открыть окно Аренда завершена
-      
-      if(socket_rent_end != null) {
-        let {station_id, coordinates} = socket_rent_end
-        console.log('socket_rent_end.station_id', station_id)
-        setTimeout(() => {
-          this._onPressMarker({
-            latitude: coordinates.lat, 
-            longitude: coordinates.lon, 
-            idStation: station_id
-          })
-          this.setState({modalRentEnd: true, modalDetailVisible: false})
-        }, 0);
-       
-      } 
-    }
+   
     
-    if(prevProps.bulavka !== bulavka) { 
-      //перейти к булавке
-      this.animateToRegion(bulavka, 16)
-      
-    }
+    
     if(prevProps.permission_geolocation !== permission_geolocation) { 
       if(permission_geolocation) {
         //перемещаемся к текущей геопозиции пользователя, если есть доступ
@@ -188,7 +139,7 @@ class MapScreen extends React.Component {
     actions.user.getCurrentPosition().then((position) => {
       this.animateToRegion(position.coords, 16);
 
-      this.setState({followsUserLocation: false})
+      //this.setState({followsUserLocation: false}) //раскоментировать, если хотим остановить приследование
     })
   }
   _onPressMarker({latitude, longitude, idStation}) {
@@ -212,11 +163,13 @@ class MapScreen extends React.Component {
     actions.setting.setStyleHiddenHeader(true)
     actions.setting.setStyleHiddenSearch(true)
 
-    //console.log('_onPressMarker', {latitude, longitude, idStation})
   }
-  _onRegionChanged(event) {
-    this.currentRegion = event
+  _onRegionChanged(region) {
+    this.currentRegion = region
 
+    this.map.getCamera().then((camera) => {
+      this.zoom = camera.zoom
+    })
     //console.log(event)
   }
   _onUserLocationChanged(event) {
@@ -257,30 +210,28 @@ class MapScreen extends React.Component {
       );
     }
   }
-  _onPressListStation() {
-    let {actions, navigation} = this.props
+ 
+  // _onPressSearch() {
+  //   let {actions, navigation} = this.props
     
-    if(Platform.OS == "ios") {
-      navigation.navigate('StationList')
-      actions.setting.setStyleOverlay(true)
-    } else {
-      this.setState({modalListVisible: true})
-    }
+  //   if(Platform.OS == "ios") {
+  //     navigation.navigate('Search')
+  //   } else {
+  //     this.setState({modalSearchVisible: true})
+  //   }
    
-    actions.setting.setStyleHiddenHeader(true)
-    actions.setting.setStyleHiddenSearch(true)
-  }
-  _onPressSearch() {
-    let {actions, navigation} = this.props
-    
-    if(Platform.OS == "ios") {
-      navigation.navigate('Search')
-    } else {
-      this.setState({modalSearchVisible: true})
-    }
-   
-    actions.setting.setStyleHiddenHeader(true)
-    actions.setting.setStyleHiddenSearch(true)
+  //   actions.setting.setStyleHiddenHeader(true)
+  //   actions.setting.setStyleHiddenSearch(true)
+  // }
+  _onChangeZoom(num) {
+      if(num > 0 && this.zoom < 20) {
+        this.zoom += num
+        this.animateToRegion(this.currentRegion, this.zoom)
+      } 
+      else if (num < 0 && this.zoom > 0) {
+        this.zoom += num
+        this.animateToRegion(this.currentRegion, this.zoom)
+      }
   }
   render () {
     let {
@@ -289,9 +240,7 @@ class MapScreen extends React.Component {
         detail, 
         setting_style, 
         actions, 
-        pins, 
         permission_geolocation, 
-        isRent
     } = this.props
     let {
       modalDetailVisible, 
@@ -305,7 +254,7 @@ class MapScreen extends React.Component {
 
     let showHeader = !setting_style.hidden_header
     let showSearch = !setting_style.hidden_search
-    //console.log("socket_rent_start", socket_rent_start)
+    
     return (
         <SafeAreaView style={styles.container}>
           
@@ -316,8 +265,10 @@ class MapScreen extends React.Component {
             style={[styles.mapContainer]}
             //customMapStyle={stylesMap}
             showsUserLocation={true}
-            showsMyLocationButton={true}
-            onRegionChange={this._onRegionChanged}
+            //showsMyLocationButton={true}
+            zoomEnabled={true}
+            enableZoomControl={true}
+            onRegionChange={(region) => this._onRegionChanged(region)}
             initialRegion={this.currentRegion}
             onPress={(e)=>console.log('press')}
             onPanDrag={(e)=>this._onPanDrag(e)}
@@ -325,72 +276,53 @@ class MapScreen extends React.Component {
               this._onUserLocationChanged(event)
             }}
             onMoveShouldSetResponder={()=>this.setState({followsUserLocation: false})}
-            onRegionChange={(region) => {
-              //console.log(region)
-              this.currentRegion = region
-            }}>
+           >
             
             {points.length > 0 && (
                  <MarkerList 
                     data={points} 
                     activeMarkerID={activeMarkerID}
-                    isRent={isRent}
                     onPress={({latitude, longitude, idStation}) => {
                       actions.station.goToStation({latitude, longitude, idStation, timeout: 0})
                     }} 
                   />
             )}
 
-            {pins.length > 0 && (
-                 <MarkerBulavka 
-                    data={[...pins]} 
-                    onPress={({latitude, longitude}) => {}} 
-                  />
-            )}
-              
           </MapView>
-
-              {showHeader && (
-                <HeaderMenu 
-                  navigation={navigation} 
-                  logo={true} 
-                  rightButtton={
-                      <IconFilter 
-                          style={{}} 
-                          onPress={()=>this._onPressListStation()}
-                      />}
-                  style={{position: "absolute", width: "100%"}}
-                />
-              )}
-              {showSearch && (
+          
+            
+          <View  style={{position: "absolute",  right: "5%", bottom: "48%",}} >
+            <ZoomButtons 
+              onPlus={()=>this._onChangeZoom(+1)}
+              onMinus={()=>this._onChangeZoom(-1)}
+            />   
+              {permission_geolocation 
+                && <IconNavigator 
+                      style={{marginTop: 25}}
+                      onPress={()=>{
+                        this.setState({followsUserLocation: !followsUserLocation})
+                      }}
+                      isFollow={followsUserLocation}
+              />}     
+          </View>
+              
+               {/* {showSearch && (
                 <InputSearch 
                   style={styles.inputSearch}
                   placeholder={i18n.t('search_by_street_or_metro')}
                   disabled={true}
                   onPress={()=>{}}
                 />
-              )}
-              {showSearch && (
+              )} */}
+              {/* {showSearch && (
                 <TouchableOpacity 
                   style={[styles.inputSearch, {height: 40}]}
                   onPress={()=>{
                     this._onPressSearch()
                   }}
                 />
-              )}  
-              
-              {permission_geolocation 
-                && <IconNavigator 
-                  style={[{position: "absolute", right: "5%", bottom: "30%",}, modalDetailVisible ? {bottom: 450} : {}]}
-                  onPress={()=>{
-                    this.setState({followsUserLocation: !followsUserLocation})
-                    
-                  }}
-                  //isFollow={followsUserLocation}
-                />}
-              
-              
-              {Platform.OS == "android" 
+              )}  */}
+              {/*Platform.OS == "android" 
                 &&
                 <ModalListStation 
                     isVisible={modalListVisible} 
@@ -406,24 +338,6 @@ class MapScreen extends React.Component {
                     navigation={navigation}
                 />
               } 
-              <ModalRentStart 
-                isVisible={modalRentStart} 
-                navigation={navigation} 
-                onClose={()=>{
-                  this.setState({modalRentStart: false, activeMarkerID: null, })
-                  actions.setting.setStyleHiddenSearch(false)
-                  actions.setting.setStyleHiddenHeader(false)
-                }}
-              />
-              <ModalRentEnd 
-                isVisible={modalRentEnd} 
-                navigation={navigation} 
-                onClose={()=>{
-                  this.setState({modalRentEnd: false, activeMarkerID: null, })
-                  actions.setting.setStyleHiddenSearch(false)
-                  actions.setting.setStyleHiddenHeader(false)
-                }}
-              />
               <ModalDetailStation 
                   isVisible={modalDetailVisible} 
                   navigation={navigation} 
@@ -434,7 +348,7 @@ class MapScreen extends React.Component {
                     actions.setting.setStyleHiddenHeader(false)
                   }}
                   item={detail}
-              />
+                />*/}
               {setting_style.overlay && <Overlay />}
         </SafeAreaView>
         
@@ -446,17 +360,11 @@ class MapScreen extends React.Component {
 
 export default  connect(state => ({
     points: state.station.points, 
-    bulavka: state.search.bulavka,
-    pins: state.search.pins,
     active_marker: state.station.active_marker,
     detail: state.station.detail,
     setting_style: state.setting.style,
     geolocation: state.user.geolocation,
     permission_geolocation: state.user.permission_geolocation,
-    socket_rent_start: state.socket.rent_start,
-    socket_rent_end: state.socket.rent_end,
-    isRent: state.rent.isRent,
-    rent_loader: state.rent.loader
 }),
 (dispatch) => ({
   actions: {
@@ -474,10 +382,9 @@ const styles = StyleSheet.create({
       top: 0, 
       bottom: 0
   },  
-
   mapContainer: {
     paddingTop: 0,
-    top: 0,
+    top: -30,
     height: "125%"
   }, 
   inputSearch: {
