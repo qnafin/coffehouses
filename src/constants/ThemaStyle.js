@@ -19,9 +19,11 @@ export default {
   fontSize11: L.isSmallDevice ? 9 : 11,
   fontSize12: L.isSmallDevice ? 10 : 12,
   fontSize14: L.isSmallDevice ? 12 : 14,
+  fontSize15: L.isSmallDevice ? 13 : 15,
   fontSize16: L.isSmallDevice ? 14 : 16,
   fontSize17: L.isSmallDevice ? 15 : 17,
   fontSize18: L.isSmallDevice ? 16 : 18,
+  fontSize20: L.isSmallDevice ? 18 : 20,
   fontSize22: L.isSmallDevice ? 20 : 22,
   fontSize34: L.isSmallDevice ? 28 : 34,
 };

@@ -5,10 +5,12 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  ScrollView,
   Platform,
   SafeAreaView,
   View,
 } from 'react-native'
+
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps'
 
 import _ from "lodash";
@@ -29,14 +31,14 @@ import CustomLocationMarker from "../components/CustomLocationMarker"
 import InputSearch from "../components/InputSearch"
 import ButtonThema from "../../../components/ButtonThema"
 import ModalDetailStation from "../components/ModalDetailStation"
-import ModalListStation from "../components/ModalListStation"
+import ModalList from "../components/ModalList"
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
 import ZoomButtons from "../components/ZoomButtons"
 
+
 const stylesMap = require("../stylesMap.json")
 const IS_ANDROID = Platform.OS == "android";
-
 
 
 class MapScreen extends React.Component {
@@ -61,7 +63,7 @@ class MapScreen extends React.Component {
     this.currentRegion = this.state.initialRegion
     this.zoom = 16;
   }
-
+ 
   componentDidMount() {
     let {actions, permission_geolocation} = this.props;
     let {initialRegion} = this.state
@@ -298,7 +300,29 @@ class MapScreen extends React.Component {
                       isFollow={followsUserLocation}
               />}     
           </View>
-              
+
+          <ModalList
+              navigation={navigation}
+          />             
+          
+          
+          
+          <View 
+            style={{
+              position: "absolute", 
+              zIndex: 1, 
+              bottom: 0, 
+              width: "100%", 
+              height: 80, 
+              backgroundColor: "red", 
+              flex: 1
+            }}
+           >
+             <Text>Поиск</Text>
+          </View>
+         
+
+
                {/* {showSearch && (
                 <InputSearch 
                   style={styles.inputSearch}

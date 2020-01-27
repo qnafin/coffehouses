@@ -17,7 +17,7 @@ import Colors from '../../../constants/Colors'
 import ThemaStyle from '../../../constants/ThemaStyle'
 import ModalScreenContainer from "../../../components/ModalScreenContainer";
 
-import ListStation from "../components/ListStation"
+import ListCoffeHouses from "../components/ListCoffeHouses"
 
 class StationListScreen extends React.Component {
   //Используется только в IOS, Android использует ModalListStation
@@ -51,7 +51,7 @@ class StationListScreen extends React.Component {
     
     return (
         <ModalScreenContainer>
-            <ListStation data={stations} navigation={navigation} hiddenDistance={permission_geolocation ? false : true}/>
+            <ListCoffeHouses data={stations} navigation={navigation} hiddenDistance={permission_geolocation ? false : true}/>
         </ModalScreenContainer>
     )
   }

@@ -10,6 +10,7 @@ import {
   StyleSheet
 } from 'react-native';
 
+import h from "../../../api/helper";
 
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -22,12 +23,13 @@ import Colors from '../../../constants/Colors';
 
 import Loading from "../../../components/Loading"
 import ButtonThema from "../../../components/ButtonThema";
-import h from "../../../api/helper";
+import ThemaStyle from '../../../constants/ThemaStyle';
+import IconInfo from "../../../components/icon/IconInfo"
 
-
-const ItemStation = ({separators, title, timeWork, address, image, distance, style, onPress, hiddenDistance}) => {
-   
+const Item = ({separators, title, timeWork, address, image, distance, style, onPress, hiddenDistance, description}) => {
+    image = "https://wallbox.ru/resize/800x480/wallpapers/main/201127/6a82ee918f7f942a7b2e68a5d865697c.jpg";
     return(
+       
         <TouchableOpacity
             onPress={onPress}
             onShowUnderlay={separators.highlight}
@@ -46,10 +48,18 @@ const ItemStation = ({separators, title, timeWork, address, image, distance, sty
                             {h.distanceFormat(distance)}
                         </Text>}
                         <View style={styles.timeWork}>
-                            <View style={[styles.elipce, (!timeWork.active ? {backgroundColor: "black"} : null)]}/> 
-                            <Text style={[styles.timeText, styles.littleText, (!timeWork.active ? {color: "black"} : {color: Colors.green})]}>
+                            <Text style={[styles.timeText, styles.littleText]}>
                                 {timeWork.value} 
                             </Text>
+
+                            <View style={[styles.elipce, (!timeWork.active ? {backgroundColor: "black"} : null)]}/> 
+                            
+                            {description  && 
+                            <View style={styles.description}>
+                                <Text style={styles.whiteText}>{description}</Text>
+                            </View>
+                            }
+                            
                         </View>
                     </View>
                 </View>
@@ -58,8 +68,9 @@ const ItemStation = ({separators, title, timeWork, address, image, distance, sty
                             <Image 
                                 source={{uri: image}} 
                                 resizeMode={"cover"} 
-                                style={{width: 75, height: 75}}
+                                style={{width: 65, height: 65, borderRadius: 4}}
                             />
+                            <IconInfo color={"white"} style={{position: "absolute", bottom: 4, right: 4}}/>
                         </View> 
                 : null}
             </View>
@@ -67,7 +78,7 @@ const ItemStation = ({separators, title, timeWork, address, image, distance, sty
     )
 }
 
-class ListStation extends React.Component {
+class ListCoffeHouses extends React.Component {
     constructor(props) {
       super(props);
       this.state = { 
@@ -89,7 +100,7 @@ class ListStation extends React.Component {
         }
     }
     render() {
-        let  {data, navigation, actions, hiddenDistance, style} = this.props
+        let  {data, navigation, actions, hiddenDistance, style, access_mode} = this.props
         if(data.length == 0) {
             return (<View style={style}>
                         <Loading style={{backgroundColor: "white"}}/>
@@ -97,7 +108,7 @@ class ListStation extends React.Component {
         }
         return (
             <View style={[style]}>
-                <Text style={styles.title}>{i18n.t("list_station")}</Text>
+                <Text style={styles.title}>{i18n.t("select_coffehouses")}</Text>
                 <FlatList
                     
                     ItemSeparatorComponent={ () => <View style={ styles.separator } /> }
@@ -105,7 +116,7 @@ class ListStation extends React.Component {
                     data={data}
                     showsVerticalScrollIndicator={false}
                     renderItem={({item, index, separators}) => (
-                        <ItemStation 
+                        <Item 
                             title={item.name}
                             address={item.address}
                             timeWork={item.time_work}
@@ -113,6 +124,7 @@ class ListStation extends React.Component {
                             image={item.preview_src}
                             separators={separators}
                             hiddenDistance={hiddenDistance}
+                            description={ access_mode ? "по пропускам" : "по пропускам"}
                             onPress={()=>this._onPressItem(item)}
                         />
                     )}
@@ -143,27 +155,27 @@ export default  connect(state => ({
       station: bindActionCreators(ActionsStation, dispatch),
     }
   })
-  )(ListStation);
+  )(ListCoffeHouses);
 
 
 const styles = StyleSheet.create({
     card: {
-        padding: 20, 
-        paddingLeft: 0,
+        padding: 13, 
+        paddingHorizontal: 0,
         borderRadius: 15,
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-between"
     },
     name: {
-        fontSize: 14,
+        fontSize: ThemaStyle.fontSize20,
         lineHeight: 19,
         marginBottom: 5,
         fontWeight: "bold",
     },
     title: {
-        fontSize: 18,
-        paddingBottom: 5,
+        fontSize: ThemaStyle.fontSize22,
+        paddingBottom: 10,
         fontWeight: "bold"
     },
     addressBlock: {
@@ -179,9 +191,8 @@ const styles = StyleSheet.create({
         borderRadius: 30,
     },
     addressText: {
-        color: Colors.black,
-        fontSize: 12,
-        lineHeight: 16
+        color: Colors.grey,
+        fontSize: ThemaStyle.fontSize15,
     },  
     timeWork: {
         flexDirection: "row",
@@ -192,20 +203,20 @@ const styles = StyleSheet.create({
         color: Colors.green,
     },
     elipce :{ 
-        width: 6,
-        height: 6,
+        width: 8,
+        height: 8,
         backgroundColor: Colors.green,
-        borderRadius: 6,
-        marginRight: 5,
+        borderRadius: 8,
+        marginLeft: 5,
         bottom: -1
     },
     infoBlock: {
         paddingRight: 10,
-        width: Layout.window.width - 75 - 80,
+        width: Layout.window.width - 65 - 80,
     },
     littleText: {
-        color: Colors.black,
-        fontSize: 10
+        color: Colors.grey,
+        fontSize: ThemaStyle.fontSize15
     },
     number: {
         fontWeight: "bold",
@@ -219,5 +230,15 @@ const styles = StyleSheet.create({
     imageBlock: {
         borderRadius: 4,
         overflow: "hidden",
+    }, 
+    description: {
+        backgroundColor: Colors.grey, 
+        borderRadius: 32, 
+        marginLeft: 5
+    },
+    whiteText: {
+        paddingHorizontal: 8,
+        paddingVertical: 5,
+        color: "white"
     }
 })

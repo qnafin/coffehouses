@@ -15,7 +15,6 @@ import CompanyScreen from '../modules/company/screens/CompanyScreen';
 
 import PersonalScreen from '../modules/personal/screens/PersonalScreen';
 import MapScreen from '../modules/map/screens/MapScreen';
-import StationListScreen from '../modules/map/screens/StationListScreen';
 import SearchScreen from '../modules/map/screens/SearchScreen';
 
 
@@ -28,7 +27,6 @@ import ThemaStyle from '../constants/ThemaStyle'
 const MapStack = createStackNavigator(
   {
     Map: MapScreen,
-    StationList: StationListScreen,
     Search: SearchScreen,
   },
   {

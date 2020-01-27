@@ -122,7 +122,7 @@ export default Locale = {
         from: "от",
         on_sum: "на сумму",
         and: "и",
-        list_station: "Список станций",
+        select_coffehouses: "Выберите кофейню",
         timer_button_description: "Отправить еще раз через",
         send_again: "Отправить еще раз",
         code_is_incorrect: "Код неверный"
@@ -251,7 +251,7 @@ export default Locale = {
         check: "Receipt",
         from: "from",
         on_sum: "On total",
-        list_station: "List Stations",
+        select_coffehouses: "Select Coffehouses",
         timer_button_description: "Send again through",
         send_again: "Send again",
         code_is_incorrect: "The code is incorrect"
