@@ -85,16 +85,7 @@ class ModalDetailStation extends React.Component {
                             <View style={styles.battaryBlock}>
                                 {[0, 1].map((item)=>{
                                     return (<View key={item}>
-                                                <Image 
-                                                    source={require("../../../assets/images/onboard/slide_point_active.png")} 
-                                                    style={styles.battaryImg} 
-                                                    resizeMode={"contain"}
-                                                />
-                                                <Image 
-                                                    source={require("../../../assets/images/onboard/slide_point_active.png")} 
-                                                    style={styles.battaryImg} 
-                                                    resizeMode={"contain"}
-                                                />
+                                               
                                             </View>)
                                 })}
                             </View>
@@ -104,16 +95,7 @@ class ModalDetailStation extends React.Component {
                             <View style={styles.battaryBlock}>
                                 {[0, 1].map((item)=>{
                                     return (<View key={item}>
-                                                <Image 
-                                                    source={require("../../../assets/images/onboard/slide_point.png")} 
-                                                    style={styles.battaryImg} 
-                                                    resizeMode={"contain"}
-                                                />
-                                                <Image 
-                                                    source={require("../../../assets/images/onboard/slide_point.png")} 
-                                                    style={styles.battaryImg} 
-                                                    resizeMode={"contain"}
-                                                />
+                                                
                                             </View>)
                                 })}
                             </View>

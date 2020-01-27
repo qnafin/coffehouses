@@ -56,7 +56,7 @@ class AuthPhoneScreen extends React.Component {
   _onNextButton() {
     let { phone } = this.state
     let { actions} = this.props
-    this.phone_format = helper.phoneNumber(phone);
+    this.phone_format = "+79999999999"//helper.phoneNumber(phone);
     this.setState({ isChecking: true });
 
     actions.user.authVerifyPhone(this.phone_format)

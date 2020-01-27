@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   plus: {
-    fontSize: 35
+    fontSize: 30
   }
 })
   

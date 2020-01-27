@@ -14,9 +14,9 @@ import h from "../api/helper"
 import CompanyScreen from '../modules/company/screens/CompanyScreen';
 
 import PersonalScreen from '../modules/personal/screens/PersonalScreen';
-import MapScreen from '../modules/stations/screens/MapScreen';
-import StationListScreen from '../modules/stations/screens/StationListScreen';
-import SearchScreen from '../modules/stations/screens/SearchScreen';
+import MapScreen from '../modules/map/screens/MapScreen';
+import StationListScreen from '../modules/map/screens/StationListScreen';
+import SearchScreen from '../modules/map/screens/SearchScreen';
 
 
 import HeaderDrawerMenu from "../components/HeaderDrawerMenu"
@@ -25,7 +25,7 @@ import Colors from "../constants/Colors";
 import {isSmallDevice} from "../constants/Layout"
 import ThemaStyle from '../constants/ThemaStyle'
 
-const StaionsStack = createStackNavigator(
+const MapStack = createStackNavigator(
   {
     Map: MapScreen,
     StationList: StationListScreen,
@@ -42,7 +42,7 @@ const StaionsStack = createStackNavigator(
   }
 );
 
-StaionsStack.navigationOptions = () => {
+MapStack.navigationOptions = () => {
   return {
     drawerLabel: () => null
   }
@@ -103,7 +103,7 @@ const CustomDrawerContentComponent = (props) => (
 );
 
 const drawerNavigator = createDrawerNavigator({
-  StaionsStack,
+  MapStack,
   PersonalStack
 }, {
   contentComponent: CustomDrawerContentComponent,

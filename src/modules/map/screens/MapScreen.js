@@ -32,7 +32,7 @@ import ModalDetailStation from "../components/ModalDetailStation"
 import ModalListStation from "../components/ModalListStation"
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
-import ZoomButtons from "../../stations/components/ZoomButtons"
+import ZoomButtons from "../components/ZoomButtons"
 
 const stylesMap = require("../stylesMap.json")
 const IS_ANDROID = Platform.OS == "android";
@@ -69,7 +69,7 @@ class MapScreen extends React.Component {
    
     actions.station.getPoints(this.currentRegion)
 
-    this.interval = setInterval(
+    this.intervalGetPoints = setInterval(
       () => {
         actions.station.getPoints(initialRegion)
       },
@@ -85,8 +85,7 @@ class MapScreen extends React.Component {
     })
   }
   componentWillUnmount() {
-    clearInterval(this.interval);
-    clearInterval(this.followLocation);
+    clearInterval(this.intervalGetPoints);
   }
   static navigationOptions = ({ navigation }) => {
     return {
@@ -107,10 +106,6 @@ class MapScreen extends React.Component {
         //включена слежка за пользователем 
         this._getCurrentPosition()
       } 
-      if(followsUserLocation == false) {
-         //слежка отключена
-        //clearInterval(this.followLocation);
-      }
     }
     
     if(prevProps.active_marker !== active_marker) { 
@@ -124,8 +119,6 @@ class MapScreen extends React.Component {
       } 
     }
    
-    
-    
     if(prevProps.permission_geolocation !== permission_geolocation) { 
       if(permission_geolocation) {
         //перемещаемся к текущей геопозиции пользователя, если есть доступ

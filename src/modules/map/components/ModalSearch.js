@@ -19,7 +19,7 @@ import * as ActionsSetting from '../../../actions/Setting'
 import i18n from '../../../i18n'
 
 import ModalContainer from "../../../components/ModalContainer"
-import InputSearch from "../components/InputSearch"
+import InputSearch from "./InputSearch"
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import Layout from '../../../constants/Layout'
