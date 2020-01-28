@@ -31,7 +31,7 @@ import CustomLocationMarker from "../components/CustomLocationMarker"
 import InputSearch from "../components/InputSearch"
 import ButtonThema from "../../../components/ButtonThema"
 import ModalDetailStation from "../components/ModalDetailStation"
-import ModalList from "../components/ModalList"
+import ModalListCoffehouses from "../components/ModalListCoffehouses"
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
 import ZoomButtons from "../components/ZoomButtons"
@@ -127,7 +127,6 @@ class MapScreen extends React.Component {
         this.setState({followsUserLocation: true})
       }
     }
-    
   }
   _getCurrentPosition() {
     let {actions} = this.props
@@ -301,11 +300,7 @@ class MapScreen extends React.Component {
               />}     
           </View>
 
-          <ModalList
-              navigation={navigation}
-          />             
-          
-          
+          <ModalListCoffehouses navigation={navigation}/>             
           
           <View 
             style={{
@@ -314,11 +309,10 @@ class MapScreen extends React.Component {
               bottom: 0, 
               width: "100%", 
               height: 80, 
-              backgroundColor: "red", 
               flex: 1
             }}
            >
-             <Text>Поиск</Text>
+             <ModalSearch navigation={navigation}/>
           </View>
          
 

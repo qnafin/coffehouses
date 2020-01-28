@@ -18,35 +18,45 @@ class InputSearch extends React.Component {
     constructor(props) {
       super(props);
       this.state = { 
+        autoFocus: false
       };
     }
     componentDidMount() {
         let {autoFocus} = this.props
-
-        if(autoFocus) {
-            Platform.OS === "ios" ? this.ref.focus() : setTimeout(() => this.ref.focus(), 50)
-        }
+        this.setState({autoFocus})
+        
     }
+    componentDidUpdate(prevProps, prevState) {
+        let {autoFocus} = this.props
+    
+        if(prevProps.autoFocus !== autoFocus) { 
+            if(autoFocus) {
+                Platform.OS === "ios" ? this.ref.focus() : setTimeout(() => this.ref.focus(), 50)
+                this.setState({autoFocus})
+            }
+        }
+      }
     render() {
-        let {style, placeholder, autoFocus, onFocus, onPress, onChangeText, disabled} = this.props
+        let {style, placeholder, onFocus, onPress, onChangeText, disabled} = this.props
+        let {autoFocus} = this.state
         return (
             <View style={[style]}>
-                <View style={[styles.input]}>
+                <View style={[styles.inputBlock]}>
+                    <TouchableOpacity style={styles.searchButton} onPress={()=> onPress ? onPress() : {}}>
+                        <View style={styles.searchButton}>
+                            <Icon name={"ios-search"} size={18} color={Colors.grey}/>
+                        </View>
+                    </TouchableOpacity>
                     <TextInput 
-                        style={{height: 40, width: "90%", color: Colors.black, fontSize:  isSmallDevice ? 12 : 14}}
+                        style={styles.input}
                         placeholder={placeholder}
                         onFocus={onFocus}
                         editable={disabled ? false : true}
                         ref={ref => this.ref = ref}
-                        autoFocus={autoFocus ? true : false}
+                        autoFocus={autoFocus}
                         onChangeText={onChangeText}
-                        placeholderTextColor={"#ccc"}
+                        placeholderTextColor={Colors.grey}
                     />
-                    <TouchableOpacity style={styles.searchButton} onPress={()=> onPress ? onPress() : {}}>
-                        <View style={styles.searchButton}>
-                            <Icon name={"ios-search"} size={15} />
-                        </View>
-                    </TouchableOpacity>
                 </View>    
             </View>
           
@@ -57,27 +67,31 @@ class InputSearch extends React.Component {
 export default InputSearch;
 
 const styles = StyleSheet.create({
-    input: {
+    inputBlock: {
+        backgroundColor: Colors.greyBackground,
         flexDirection: "row",
         width: "100%",
-        backgroundColor: "white",
         padding: 10,
-        height: 40,
+        paddingVertical: 5,
+        height: 36,
         color: Colors.black,
-        paddingLeft: 15,
-        paddingRight: 10,
-        borderRadius: 30,
+        borderRadius: 10,
         alignItems: "center",
         alignContent: "center",
-        justifyContent: "space-between"
+        justifyContent: "flex-start"
     },
     searchButton: {
-        backgroundColor: Colors.greyBackground,
-        borderRadius: 20, 
-        width: 26, 
-        height: 26,  
+        width: 15, 
+        height: 20,
+        marginRight: 2,  
         justifyContent: "center",
         alignItems: "center",
         alignContent: "center"    
+    },
+    input: {
+        height: 36, 
+        width: "100%",
+        color: Colors.grey, 
+        fontSize: ThemaStyle.fontSize14
     }
 })

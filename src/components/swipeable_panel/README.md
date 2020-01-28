@@ -98,7 +98,12 @@ export default class App extends Component {
 | **closeOnTouchOutside** | `bool`     | Set true if you want to close panel by touching outside       | `false` |
 | **noBar**               | `bool`     | Set true if you want to remove gray bar                       | `false` |
 | **allowFullClose**      | `bool`     | Allow full close pull down                                    | `true`  |
+| **heightClose**         | `number`   | Closed height, only with allowFullClose set                   |   `0`   |
+| **heightSmall**         | `number`   | Small height                                                  |   `0`   |
 | **modalFullHeight**     | `bool`     | Set false if you want to manage content behind a modal window | `true`  |
+| **onLarge**             | `Function` | Fired when large panel opening                                |         |
+| **onLargeClose**        | `Function` | Fired when large panel is closeing                            |         |
+
 
 #### ⭐️ Show Your Support
 

@@ -16,9 +16,10 @@ import i18n from '../../../i18n';
 import Layout from '../../../constants/Layout';
 import Colors from '../../../constants/Colors';
 
-import Loading from "../../../components/Loading"
+import Loading from "../../../components/Loading";
 import h from "../../../api/helper";
-
+import ThemaStyle from '../../../constants/ThemaStyle';
+import DistanceText from "../components/DistanceText";
 
 const ItemAddress = ({separators, title, coordinates, address, onPress, style}) => {
     return(
@@ -29,16 +30,21 @@ const ItemAddress = ({separators, title, coordinates, address, onPress, style}) 
         >
             <View style={styles.card}>
                 <Text style={styles.name}>{title}</Text>
-                <Text style={styles.addressText}>{address}</Text>
+                <DistanceText 
+                    latitude={coordinates.lat} 
+                    longitude={coordinates.lon}
+                    style={styles.distanceText}
+                />
             </View>
         </TouchableOpacity>
     )
 }
 const ListAddress = ({data, onPres, navigation, actions, onClose}) => {
-    
+    if(data.length == 0) 
+        return <Text>ЕСЛИ ПОЛЕ ПОИСКА ПУСТОЕ, ДОЛЖЕН БЫТЬ ВЕСЬ СПИСОК ЗАВЕДЕНИЙ</Text>
+   
     return (
       <FlatList
-        //style={{ backgroundColor: "red", height: 200}}
         ItemSeparatorComponent={ () => <View style={ styles.separator } /> }
         data={data}
         showsVerticalScrollIndicator={false}
@@ -50,6 +56,8 @@ const ListAddress = ({data, onPres, navigation, actions, onClose}) => {
                 separators={separators}
                 coordinates={item.geometry.coordinates}
                 onPress={() => {
+                    console.log(item)
+                    return false
                     navigation.navigate('Map')
                     actions.search.goToAddress({
                         latitude: item.geometry.coordinates.lat, 
@@ -70,16 +78,15 @@ export default ListAddress;
 const styles = StyleSheet.create({
     card: {
         width: "96%",
-        padding: 20, 
-        paddingRight: 0, 
-        paddingLeft: 0,
-        flexDirection: "column",
+        padding: 11, 
+        paddingHorizontal: 0, 
+        flexDirection: "row",
+        justifyContent: "space-between"
     },
     name: {
-        fontSize: 14,
+        fontSize: ThemaStyle.fontSize17,
         lineHeight: 19,
-        marginBottom: 5,
-        fontWeight: "bold",
+        color: Colors.black
     },
     addressBlock: {
         backgroundColor: "white",
@@ -128,11 +135,14 @@ const styles = StyleSheet.create({
     },
     separator: { 
         width: "100%", 
-        height: 1, 
-        backgroundColor: "#E2E2E2" 
+        height: 0.5, 
+        backgroundColor: "#ccc" 
     },
     imageBlock: {
         borderRadius: 4,
         overflow: "hidden",
+    },
+    distanceText: {
+        color: Colors.grey
     }
 })

@@ -89,7 +89,7 @@ class SwipeablePanel extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { isActive, openLarge, onlyLarge, onClose, openPanel } = this.props;
+    const { isActive, openLarge, onlyLarge, onLargeClose, onLarge, openPanel } = this.props;
     let {status} = this.state;
 
     if (prevProps.isActive !== isActive) {
@@ -104,20 +104,39 @@ class SwipeablePanel extends Component {
       }
       
     }
+    if (prevProps.openLarge !== openLarge) {
+      
+      if (isActive) {
+        this._animateTo(
+          openLarge ? STATUS.LARGE : onlyLarge ? STATUS.LARGE : STATUS.SMALL
+        );
+      } else {
+        this._animateTo();
+      }
+      
+    }
     if(prevState.status !== status) { 
-      if(status > 0) {
+      if(status > STATUS.CLOSED) {
         openPanel();
       } 
+      if(status == STATUS.CLOSED && onLargeClose) {
+        onLargeClose();
+      }
+      if(status == STATUS.LARGE && onLarge) {
+        onLarge();
+      }
    }
   }
   _heightContent(status) {
     
-    let {allowFullClose} = this.props;
+    let {allowFullClose, heightClose, heightSmall} = this.props;
+    heightClose = (heightClose) ? heightClose : 0;
+    heightSmall = heightSmall ? heightSmall : 400;
     let newY = 0;
     if (status == 0) {
-      newY = allowFullClose ? PANEL_HEIGHT : PANEL_HEIGHT-100;
+      newY = allowFullClose ? PANEL_HEIGHT : PANEL_HEIGHT-heightClose;
       
-    } else if (status == 1) newY = FULL_HEIGHT - 400;
+    } else if (status == 1) newY = FULL_HEIGHT - heightSmall;
     else if (status == 2) newY = 0;
 
 
@@ -154,16 +173,16 @@ class SwipeablePanel extends Component {
       }, 360);
     }
   };
-
+  
   render() {
     const { showComponent, status,  } = this.state;
     const {
       noBackgroundOpacity,
       style,
+      noBar,
       closeRootStyle,
       closeIconStyle
     } = this.props;
-    console.log('status', status)
     return showComponent ? (
       <Animated.View
         style={[
@@ -196,7 +215,8 @@ class SwipeablePanel extends Component {
           ]}
           {...this._panResponder.panHandlers}
         >
-          <Bar />
+          {!noBar && <Bar />}
+          
           {this.props.showCloseButton && (
             <Close
               rootStyle={closeRootStyle}
@@ -278,14 +298,16 @@ const SwipeablePanelStyles = StyleSheet.create({
     borderRadius: 20,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
-    elevation: 1,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 1
+    // },
+    // shadowOpacity: 0.18,
+    // shadowRadius: 1.0,
+    // elevation: 1,
+    borderWidth: 0.5,
+    borderColor: "#ececec",
     zIndex: 2
   },
   scrollViewContentContainerStyle: {

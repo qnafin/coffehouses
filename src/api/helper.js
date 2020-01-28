@@ -162,9 +162,9 @@ const helper = {
       let meter = km * 1000;
       if(meter > 2000) {
         let km = this.round10(meter / 1000 , -1);
-        return km + " " + this.num2str(km, i18n.t('arr_km'));
+        return km + " " + i18n.t('km');
       }
-      return meter + " " + this.num2str(meter, i18n.t('arr_meter'));
+      return meter + " " + i18n.t('m');
     },
     formarCreditCard(number) {
       return number.toString().slice(-4)

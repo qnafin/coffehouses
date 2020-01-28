@@ -10,107 +10,172 @@ import {
   StyleSheet
 } from 'react-native';
 
-
-import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as ActionsSearch from '../../../actions/Search'
-import * as ActionsSetting from '../../../actions/Setting'
 
-import i18n from '../../../i18n'
-
+import i18n from '../../../i18n';
 import ModalContainer from "../../../components/ModalContainer"
-import InputSearch from "./InputSearch"
 
-import Icon from 'react-native-vector-icons/Ionicons'
-import Layout from '../../../constants/Layout'
+
+import L from '../../../constants/Layout';
 import Colors from '../../../constants/Colors'
 
 import ButtonThema from "../../../components/ButtonThema"
 import h from "../../../api/helper"
+import ListStation from "./ListCoffeHouses"
+
+import InputSearch from "./InputSearch"
+import SwipeablePanel from "../../../components/swipeable_panel";
 import ListAddress from "./ListAddress"
 
-
 class ModalSearch extends React.Component {
+
     constructor(props) {
       super(props);
       this.state = { 
-        address: null
+        text: null,
+        swipeablePanelActive: false,
+        openLarge: false
       };
-    }
-    _onChangeText(text) {
-        this.setState({address: text})
-        let {actions} = this.props
-        
-        actions.search.getAddress({address: text, lat: null, lon: null})
+      
     }
     componentDidMount() {
-        
+      let {geolocation, actions} = this.props
+      let {text} = this.state
+      this._openPanel();
+
+      actions.search.getAddress({address: "", lat: null, lon: null})
     }
-    componentDidUpdate(prevProps, prevState) {
-        let {isVisible} = this.props
-        let {actions} = this.props
-        if(prevProps.isVisible !== isVisible) { 
-            if(isVisible === false) {
-                actions.setting.setStyleHiddenHeader(false)
-                actions.setting.setStyleHiddenSearch(false)
-            } 
-        }
-         
+    componentWillUnmount() {
+  
+    }
+    _onChangeText(text) {
+      this.setState({address: text})
+      let {actions} = this.props
+      
+      actions.search.getAddress({address: text, lat: null, lon: null})
+    }
+    _openPanel = () => {
+      this.setState({ swipeablePanelActive: true });
+    }
+    _openLarge = () => {
+      this.setState({ openLarge: true });
+    }
+    _closePanel = () => {
+      this.setState({ swipeablePanelActive: false, openLarge: false });
+    }
+    _onLarge = () => {
+      this.setState({ openLarge: true });
+    }
+    _onLargeClose = () => {
+      this.setState({ openLarge: false});
+    }
+    _onCancel = () => {
+      let {actions} = this.props
+      this._closePanel()
+      actions.search.clear()
+      this.setState({text: null})
     }
     render() {
-        let {isVisible, onClose, addresses, navigation, actions} = this.props
-       
+        let { stations, navigation, permission_geolocation, addresses, actions} = this.props
+        let { swipeablePanelActive, openLarge } = this.state 
         return (
-            <ModalContainer 
-                isVisible={isVisible} 
-                onClose={() => onClose()}
-                opacity={0.5}
-            >
-                    
-                <InputSearch 
-                    placeholder={i18n.t('search_by_street_or_metro')}
-                    onFocus={()=>{
-                        
-                    }}
-                    autoFocus={true}
-                    onChangeText={text => this._onChangeText(text)}
-                    style={styles.borderInput}
-                />
-                <View style={styles.addressBlockList}>
-                    <ListAddress onClose={()=>onClose()} data={addresses} navigation={navigation} actions={actions}/>
+          <SwipeablePanel
+            fullWidth
+            isActive={swipeablePanelActive}
+            onClose={this._closePanel}
+            openPanel={this._openPanel}
+            onPressCloseButton={this._closePanel}
+            style={{borderRadius: 10}}
+            noBackgroundOpacity={true}
+            closeOnTouchOutside={true}
+            allowFullClose={false}
+            heightClose={75}
+            heightSmall={180}
+            modalFullHeight={false}
+            noBar={!openLarge}
+            onlyLarge={openLarge}
+            openLarge={openLarge}
+            onLarge={this._onLarge}
+            onLargeClose={this._onLargeClose}
+          >
+            <View style={styles.content}>
+                <View style={styles.searchBlock}>
+                  <InputSearch 
+                      placeholder={i18n.t('search_by_coffehouses')}
+                      onFocus={()=>{
+                          
+                      }}
+                      autoFocus={openLarge}
+                      onChangeText={text => this._onChangeText(text)}
+                      style={[openLarge ? styles.searchBlockClose : {width: "100%"}]}
+                  />
+                  {openLarge && 
+                    <TouchableOpacity 
+                      onPress={this._onCancel} 
+                    >
+                      <Text style={styles.closeButton}>{i18n.t("cancel")}</Text>
+                    </TouchableOpacity>
+                  }
                 </View>
-                    
-                    
-            </ModalContainer>
+                {!openLarge && 
+                  <TouchableOpacity 
+                    style={[styles.inputSearch, {height: 40}]}
+                    onPress={()=>{
+                      this._openPanel()
+                      this._openLarge()
+                    }}
+                  />
+                }
+                <View style={styles.addressBlockList}>
+                  <ListAddress onClose={()=> {}} data={addresses} navigation={navigation} actions={actions}/>
+                </View>
+            </View>
+          </SwipeablePanel>
         )
     }
 }
 
+
 export default  connect(state => ({
-    addresses: state.search.addresses
-  }),
-  (dispatch) => ({
-    actions: {
-        search: bindActionCreators(ActionsSearch, dispatch),
-        setting: bindActionCreators(ActionsSetting, dispatch)
-    }
-  })
+  addresses: state.search.addresses,
+  permission_geolocation: state.user.permission_geolocation
+}),
+(dispatch) => ({
+  actions: {
+    search: bindActionCreators(ActionsSearch, dispatch)
+  }
+})
 )(ModalSearch);
 
 
+
 const styles = StyleSheet.create({
-   
-    borderInput: {
-        borderWidth: 1, 
-        borderRadius: 50,
-        width: "100%",
-        borderColor: Colors.green,
-        marginTop: 20,
-        paddingLeft: 0
-    },
-    addressBlockList: {
-        padding: 10,
-        width: "100%",
-        height: Layout.window.height * 0.68
-    }
+  inputSearch: {
+    position: "absolute", 
+    top: 16, 
+    alignItems: "center", 
+    left: "4%", 
+    right: "4%", 
+    opacity: 0.5
+  },
+  content: {
+    paddingHorizontal: "4%", 
+    paddingVertical: 16
+  },
+  searchBlock: {
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center",
+    marginBottom: 12
+  },
+  searchBlockClose: {
+    width: L.window.width - 100,
+  },
+  closeButton: {
+    width: 60,
+    textAlign: "center",
+    color: Colors.grey
+  }
 })

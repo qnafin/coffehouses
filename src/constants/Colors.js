@@ -16,7 +16,7 @@ export default {
   grey: "#8A8A8E",
   green: "#59BC48",
   litleGrey: "#f8f8f8",
-  greyBackground: "#f8f8f8",
+  greyBackground: "rgba(118, 118, 128, 0.12)",
   salate: "#62BEBD",
   greenGradient: ["#333333", "#333333"]
 };
