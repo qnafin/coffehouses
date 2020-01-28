@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Platform,
-  FlatList,
+  Keyboard,
   ScrollView,
   StyleSheet
 } from 'react-native';
@@ -64,12 +64,14 @@ class ModalSearch extends React.Component {
     }
     _closePanel = () => {
       this.setState({ swipeablePanelActive: false, openLarge: false });
+      Keyboard.dismiss()
     }
     _onLarge = () => {
       this.setState({ openLarge: true });
     }
     _onLargeClose = () => {
       this.setState({ openLarge: false});
+      Keyboard.dismiss()
     }
     _onCancel = () => {
       let {actions} = this.props

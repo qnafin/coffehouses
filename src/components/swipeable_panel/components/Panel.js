@@ -144,7 +144,9 @@ class SwipeablePanel extends Component {
   }
   modalHeight(status) {
     let {modalFullHeight} = this.props;
-    return !modalFullHeight ? { height: FULL_HEIGHT - this._heightContent(status) - 100} : null;
+    let void_space = (status == STATUS.LARGE) ? 0 : 100;
+
+    return !modalFullHeight ? { height: FULL_HEIGHT - this._heightContent(status) - void_space} : null;
   }
 
   _animateTo = (newStatus = 0) => {
