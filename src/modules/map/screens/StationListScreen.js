@@ -59,7 +59,7 @@ class StationListScreen extends React.Component {
 
 
 export default  connect(state => ({
-  stations: state.station.stations,
+  stations: state.coffehouses.stations,
   permission_geolocation: state.user.permission_geolocation
 }),
 (dispatch) => ({

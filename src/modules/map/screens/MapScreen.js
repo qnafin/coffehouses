@@ -31,6 +31,7 @@ import CustomLocationMarker from "../components/CustomLocationMarker"
 import InputSearch from "../components/InputSearch"
 import ButtonThema from "../../../components/ButtonThema"
 import ModalDetailStation from "../components/ModalDetailStation"
+import ModalDetail from "../components/ModalDetail"
 import ModalListCoffehouses from "../components/ModalListCoffehouses"
 import ModalSearch from "../components/ModalSearch"
 import Overlay from "../../../components/Overlay"
@@ -47,10 +48,6 @@ class MapScreen extends React.Component {
     this.state = { 
       followsUserLocation: false,
       modalDetailVisible: false,
-      modalListVisible: false,
-      modalSearchVisible: false,
-      modalRentStart: false,
-      modalRentEnd: false,
       initialRegion: {
         "latitude": 55.73103009027086, 
         "latitudeDelta": 0.20116519311886094, 
@@ -153,10 +150,6 @@ class MapScreen extends React.Component {
     this.animateToRegion(this.currentRegion, zoom=16);
 
     actions.station.getStationDetail(idStation)
-
-    actions.setting.setStyleHiddenHeader(true)
-    actions.setting.setStyleHiddenSearch(true)
-
   }
   _onRegionChanged(region) {
     this.currentRegion = region
@@ -205,18 +198,6 @@ class MapScreen extends React.Component {
     }
   }
  
-  // _onPressSearch() {
-  //   let {actions, navigation} = this.props
-    
-  //   if(Platform.OS == "ios") {
-  //     navigation.navigate('Search')
-  //   } else {
-  //     this.setState({modalSearchVisible: true})
-  //   }
-   
-  //   actions.setting.setStyleHiddenHeader(true)
-  //   actions.setting.setStyleHiddenSearch(true)
-  // }
   _onChangeZoom(num) {
       if(num > 0 && this.zoom < 20) {
         this.zoom += num
@@ -240,18 +221,11 @@ class MapScreen extends React.Component {
       modalDetailVisible, 
       followsUserLocation, 
       activeMarkerID,
-      modalSearchVisible,
-      modalListVisible,
-      modalRentStart,
-      modalRentEnd,
     } = this.state
 
-    let showHeader = !setting_style.hidden_header
-    let showSearch = !setting_style.hidden_search
     
     return (
         <SafeAreaView style={styles.container}>
-          
           <CustomLocationMarker />
           <MapView
             ref={el => (this.map = el)}
@@ -271,7 +245,6 @@ class MapScreen extends React.Component {
             }}
             onMoveShouldSetResponder={()=>this.setState({followsUserLocation: false})}
            >
-            
             {points.length > 0 && (
                  <MarkerList 
                     data={points} 
@@ -281,85 +254,45 @@ class MapScreen extends React.Component {
                     }} 
                   />
             )}
-
           </MapView>
           
-            
-          <View  style={{position: "absolute",  right: "5%", bottom: "48%",}} >
+          <View style={{position: "absolute",  right: "5%", bottom: "48%",}} >
             <ZoomButtons 
               onPlus={()=>this._onChangeZoom(+1)}
               onMinus={()=>this._onChangeZoom(-1)}
             />   
-              {permission_geolocation 
-                && <IconNavigator 
-                      style={{marginTop: 25}}
-                      onPress={()=>{
-                        this.setState({followsUserLocation: !followsUserLocation})
-                      }}
-                      isFollow={followsUserLocation}
-              />}     
+            {permission_geolocation 
+              && <IconNavigator 
+                    style={{marginTop: 25}}
+                    onPress={()=>{
+                      this.setState({followsUserLocation: !followsUserLocation})
+                    }}
+                    isFollow={followsUserLocation}
+            />}     
           </View>
+          {
+          !modalDetailVisible 
+            && <ModalListCoffehouses navigation={navigation}/>  
+          }
+          {
+          !modalDetailVisible
+            && (<View style={styles.searchBlock}>
+                    <ModalSearch navigation={navigation}/>
+                </View>)
+          }
 
-          <ModalListCoffehouses navigation={navigation}/>             
           
-          <View 
-            style={{
-              position: "absolute", 
-              zIndex: 1, 
-              bottom: 0, 
-              width: "100%", 
-              height: 80, 
-              flex: 1
+
+          <ModalDetail 
+            navigation={navigation} 
+            isActive={modalDetailVisible} 
+            onClose={()=>{
+              this.setState({modalDetailVisible: false, activeMarkerID: null, })
             }}
-           >
-             <ModalSearch navigation={navigation}/>
-          </View>
-         
+            item={detail}
+          />          
 
-
-               {/* {showSearch && (
-                <InputSearch 
-                  style={styles.inputSearch}
-                  placeholder={i18n.t('search_by_street_or_metro')}
-                  disabled={true}
-                  onPress={()=>{}}
-                />
-              )} */}
-              {/* {showSearch && (
-                <TouchableOpacity 
-                  style={[styles.inputSearch, {height: 40}]}
-                  onPress={()=>{
-                    this._onPressSearch()
-                  }}
-                />
-              )}  */}
-              {/*Platform.OS == "android" 
-                &&
-                <ModalListStation 
-                    isVisible={modalListVisible} 
-                    onClose={()=>{this.setState({modalListVisible: false})}}
-                    navigation={navigation}
-                />  
-              }      
-              {Platform.OS == "android" 
-                &&
-                <ModalSearch 
-                    isVisible={modalSearchVisible} 
-                    onClose={()=>{this.setState({modalSearchVisible: false})}}
-                    navigation={navigation}
-                />
-              } 
-              <ModalDetailStation 
-                  isVisible={modalDetailVisible} 
-                  navigation={navigation} 
-                  isRent={isRent}
-                  onClose={()=>{
-                    this.setState({modalDetailVisible: false, activeMarkerID: null, })
-                    actions.setting.setStyleHiddenSearch(false)
-                    actions.setting.setStyleHiddenHeader(false)
-                  }}
-                  item={detail}
-                />*/}
+            
               {setting_style.overlay && <Overlay />}
         </SafeAreaView>
         
@@ -368,11 +301,10 @@ class MapScreen extends React.Component {
 }
 
 
-
 export default  connect(state => ({
-    points: state.station.points, 
-    active_marker: state.station.active_marker,
-    detail: state.station.detail,
+    points: state.coffehouses.points, 
+    active_marker: state.coffehouses.active_marker,
+    detail: state.coffehouses.detail,
     setting_style: state.setting.style,
     geolocation: state.user.geolocation,
     permission_geolocation: state.user.permission_geolocation,
@@ -419,5 +351,13 @@ const styles = StyleSheet.create({
     bottom: 15,
     left: "3%", 
     right: "3%",
+  },
+  searchBlock: {
+    position: "absolute", 
+    zIndex: 1, 
+    bottom: 0, 
+    width: "100%", 
+    height: 80, 
+    flex: 1
   }
 })

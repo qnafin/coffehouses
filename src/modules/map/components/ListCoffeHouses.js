@@ -148,7 +148,7 @@ class ListCoffeHouses extends React.Component {
 }
 
 export default  connect(state => ({
-    stations: state.station.stations
+    stations: state.coffehouses.stations
   }),
   (dispatch) => ({
     actions: {

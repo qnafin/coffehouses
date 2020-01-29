@@ -88,10 +88,9 @@ export default Locale = {
         attention: "Внимание!",
         do_you_really_want_to_sign_out: "Вы действительно хотите выйти из учетной записи?",
         search_by_coffehouses: "Найти кофейню",
-        take_charger: "Взять зарядное устройство",
         come_back: "Вернуться назад",
         access_to_location: "Доступ к Геопозиции",
-        allow_powerapp_access_to_your_location: "Разрешить приложению PowerApp доступ к вашей геопозиции?",
+        allow_access_to_your_location: "Разрешить приложению доступ к вашей геопозиции?",
         send_new_code: "Отправить новый код",
         snap_card:"Привязать карту",
         link_card_for_payment: "Привязать карту для оплаты",
@@ -118,7 +117,7 @@ export default Locale = {
         check: "Чек",
         checks: "Чеки",
         view_checks: "Посмотреть чеки",
-        not_available_during_rental: "Во время активной аренды данная страница недоступна",
+        select: "Выбрать",
         share: "Поделиться",
         look: "Посмотреть",
         from: "от",
@@ -127,7 +126,8 @@ export default Locale = {
         select_coffehouses: "Выберите кофейню",
         timer_button_description: "Отправить еще раз через",
         send_again: "Отправить еще раз",
-        code_is_incorrect: "Код неверный"
+        code_is_incorrect: "Код неверный",
+        to_call: "Позвонить"
     },
     en: {
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
@@ -221,10 +221,10 @@ export default Locale = {
         yes: "Yes",
         no: "No",
         search_by_coffehouses: "Search by coffehouses",
-        take_charger: "Take the charger",
+        select: "Select",
         come_back: "Come back",
         access_to_location: "Access to Location",
-        allow_powerapp_access_to_your_location: "Allow PowerApp apps to access your geo-location?",
+        allow_access_to_your_location: "Allow apps to access your geo-location?",
         send_new_code: "Send new code",
         snap_card:"Snap card",
         link_card_for_payment: "Link card for payment",
@@ -249,7 +249,6 @@ export default Locale = {
         open_check: "Open check",
         checks: "Checks",
         view_checks: "View checks",
-        not_available_during_rental: "This page is not available during active leases.",
         share: "Share",
         look: "Look",
         check: "Receipt",
@@ -258,6 +257,7 @@ export default Locale = {
         select_coffehouses: "Select Coffehouses",
         timer_button_description: "Send again through",
         send_again: "Send again",
-        code_is_incorrect: "The code is incorrect"
+        code_is_incorrect: "The code is incorrect",
+        to_call: "To call"
     }
 }

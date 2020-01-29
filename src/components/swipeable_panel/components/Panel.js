@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 const FULL_HEIGHT = Dimensions.get("window").height;
 const FULL_WIDTH = Dimensions.get("window").width;
 const PANEL_HEIGHT = FULL_HEIGHT - 100;
-
+const IS_SMALL_DEVICE = FULL_WIDTH <= 375;
 const STATUS = {
   CLOSED: 0,
   SMALL: 1,
@@ -129,15 +129,16 @@ class SwipeablePanel extends Component {
   }
   _heightContent(status) {
     
-    let {allowFullClose, heightClose, heightSmall} = this.props;
+    let {allowFullClose, heightClose, heightSmall, heightLarge} = this.props;
     heightClose = (heightClose) ? heightClose : 0;
     heightSmall = heightSmall ? heightSmall : 400;
+    heightLarge = heightLarge ? heightLarge : 0
     let newY = 0;
     if (status == 0) {
       newY = allowFullClose ? PANEL_HEIGHT : PANEL_HEIGHT-heightClose;
       
     } else if (status == 1) newY = FULL_HEIGHT - heightSmall;
-    else if (status == 2) newY = 0;
+    else if (status == 2) newY = heightLarge;
 
 
     return newY
@@ -300,16 +301,14 @@ const SwipeablePanelStyles = StyleSheet.create({
     borderRadius: 20,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 1
-    // },
-    // shadowOpacity: 0.18,
-    // shadowRadius: 1.0,
-    // elevation: 1,
-    borderWidth: 0.5,
-    borderColor: "#ececec",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
     zIndex: 2
   },
   scrollViewContentContainerStyle: {

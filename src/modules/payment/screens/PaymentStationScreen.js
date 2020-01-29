@@ -107,7 +107,7 @@ class PaymentStationScreen extends React.Component {
 
 
 export default  connect(state => ({
-  active_marker: state.station.active_marker,
+  active_marker: state.coffehouses.active_marker,
   payment: state.payment
 }),
 (dispatch) => ({

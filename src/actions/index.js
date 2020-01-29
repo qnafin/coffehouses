@@ -1,29 +1,7 @@
 import * as types from './actionTypes';
 import * as api from '../api'
 
-import * as socket from '../api/socket';
 
-export const  connectSocket = ({room}) => {
-    return (dispatch, getState, {}) => {
-        let client = socket.createClient({clientId:`${room}-${Date.now()}`, room});
-        client.on('messageReceived', (message) => {
-            switch(message.payloadString.event)
-            {
-                case "rent_start":
-                    dispatch({
-                        type: types.SOCKET_RENT_START, 
-                        payload: message.payloadString.payload
-                    })
-                    break;
-            
-                default:
-                    break;
-            }
-            
-        });
-        
-    }
-}
 export const setError = (dispatch, error) => {
     dispatch({
         type: types.ERROR_FETCH, 

@@ -47,21 +47,6 @@ class PaymentScreen extends React.Component {
   render () {
     let {navigation, rent, actions, payment} = this.props
     
-    if(rent.isRent) {
-      //Если активирована аренда, скрыть экран
-      return  (
-          <View style={[styles.container]}>
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-              <TitlePageBack name={i18n.t('payment')} 
-                  onPress={()=>navigation.navigate('Map')} 
-                  openMenu={true} 
-                  navigation={navigation}
-              />
-              <Text>{i18n.t('not_available_during_rental')}</Text>
-            </ScrollView>
-        </View>
-      )
-    } 
     return (
       <View style={[styles.container]}>
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -119,8 +104,7 @@ class PaymentScreen extends React.Component {
 
 export default  connect(state => ({
   user: state.user, 
-  payment: state.payment,
-  rent: state.rent
+  payment: state.payment
 }),
 (dispatch) => ({
   actions: {

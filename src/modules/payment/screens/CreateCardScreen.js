@@ -347,7 +347,7 @@ class CreateCardScreen extends React.Component {
 export default  connect(state => ({
   now_snap_card: state.payment.now_snap_card,
   payment: state.payment,
-  active_marker: state.station.active_marker
+  active_marker: state.coffehouses.active_marker
 }),
 (dispatch) => ({
   actions: {

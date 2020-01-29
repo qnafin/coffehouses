@@ -141,7 +141,7 @@ class MyLocationMapMarker extends React.PureComponent {
 }
 
 export default  connect(state => ({
-  points: state.station.points, 
+  points: state.coffehouses.points, 
 }),
 (dispatch) => ({
   actions: {

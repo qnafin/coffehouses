@@ -89,7 +89,7 @@ class ModalSearch extends React.Component {
             onClose={this._closePanel}
             openPanel={this._openPanel}
             onPressCloseButton={this._closePanel}
-            style={{borderRadius: 10}}
+            style={[openLarge ? styles.modalLarge : styles.modalClose]}
             noBackgroundOpacity={true}
             closeOnTouchOutside={true}
             allowFullClose={false}
@@ -179,5 +179,13 @@ const styles = StyleSheet.create({
     width: 60,
     textAlign: "center",
     color: Colors.grey
+  },
+  modalLarge: {
+    borderRadius: 10
+  },
+  modalClose: {
+    borderRadius: 0,
+    shadowColor: "white",
   }
+
 })

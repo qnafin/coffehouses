@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
     name: {
         fontSize: ThemaStyle.fontSize17,
         lineHeight: 19,
-        color: Colors.black
+        color: Colors.black,
+        width: "80%",
     },
     addressBlock: {
         backgroundColor: "white",

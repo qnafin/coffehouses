@@ -28,12 +28,12 @@ export const Close = ({ onPress, rootStyle, iconStyle }) => {
 
 const CloseStyles = StyleSheet.create({
   closeButton: {
-    width: 30,
-    height: 30,
+    width: 26,
+    height: 26,
     borderRadius: 15,
     position: "absolute",
-    right: 20,
-    top: 20,
+    right: 17,
+    top: 17,
     backgroundColor: "#e2e2e2",
     zIndex: 3,
     display: "flex",
