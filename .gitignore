@@ -59,5 +59,8 @@ buck-out/
 /ios/Pods/
 ios/Podfile.lock
 
-/android_r/
 yarn.lock
+
+src/api
+src/actions
+src/reducer

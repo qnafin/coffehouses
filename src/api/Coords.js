@@ -1,6 +1,6 @@
 /**
  * @file Geodesic, cartographic, and geographic
- * @author Jason Wohlgemuth, Kunafin Ruslan
+ * @author Jason Wohlgemuth
  * @module geodetic
  * @site https://applied.js.org/geodetic.js
 **/

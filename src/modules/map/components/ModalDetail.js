@@ -15,10 +15,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as ActionsSetting from '../../../actions/Setting'
-import * as ActionsRent from "../../../actions/Rent"
 
 import i18n from '../../../i18n';
-import Modal from "react-native-modal";
 
 import Loading from "../../../components/Loading"
 import ThemaStyle from '../../../constants/ThemaStyle';
