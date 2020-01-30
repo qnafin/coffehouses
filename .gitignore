@@ -61,6 +61,6 @@ ios/Podfile.lock
 
 yarn.lock
 
-src/api
-src/actions
-src/reducer
+src/api/
+src/actions/
+src/reducer/
